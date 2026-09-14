@@ -1040,17 +1040,24 @@ async def assigned_time_handler(
 # ==========================================
 
 async def main():
-    from curl_session import CurlSession
+    import os
 
-    session = CurlSession(
-        proxy="127.0.0.1:10808",
-        timeout=60,
-    )
+    if os.getenv("USE_PROXY", "false").lower() == "true":
+        from curl_session import CurlSession
 
-    bot = Bot(
-        token=BOT_TOKEN,
-        session=session,
-    )
+        session = CurlSession(
+            proxy="127.0.0.1:10808",
+            timeout=60,
+        )
+
+        bot = Bot(
+            token=BOT_TOKEN,
+            session=session,
+        )
+    else:
+        bot = Bot(
+            token=BOT_TOKEN,
+        )
 
     print("💌 SoftLoveDateBot запущен!")
 
