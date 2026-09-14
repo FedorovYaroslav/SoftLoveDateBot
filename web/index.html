@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>Для тебя ❤️</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- ========================= -->
+        <!-- ЭКРАН 1 — ОБЛОЖКА -->
+        <!-- ========================= -->
+
+        <section
+            id="screen-cover"
+            class="screen active"
+        >
+
+            <div class="ambient ambient-one"></div>
+            <div class="ambient ambient-two"></div>
+
+            <div class="cover-content">
+
+                <div class="eyebrow">
+                    для
+                </div>
+
+                <h1>
+                    <span id="cover-recipient-name">
+                        тебя
+                    </span>
+                </h1>
+
+                <p class="cover-description">
+                    у меня есть для тебя
+                    <br>
+                    кое-что особенное
+                </p>
+
+                <button
+                    id="open-invitation"
+                    class="primary-button"
+                >
+                    <span>Открыть приглашение</span>
+                    <span class="button-arrow">→</span>
+                </button>
+
+                <div class="cover-signature">
+                    маленькое приглашение
+                    <br>
+                    от <span id="cover-sender-name">тебя</span>
+                </div>
+
+            </div>
+
+            <div class="floating-heart heart-one">♡</div>
+            <div class="floating-heart heart-two">♡</div>
+            <div class="floating-heart heart-three">♡</div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- ЭКРАН 2 — ПРИГЛАШЕНИЕ -->
+        <!-- ========================= -->
+
+        <section
+            id="screen-invitation"
+            class="screen"
+        >
+
+            <div class="page">
+
+                <div class="top-label">
+                    для <span id="recipient-name">тебя</span>
+                </div>
+
+                <div class="invitation-number">
+                    01
+                </div>
+
+                <div class="photo-frame">
+
+    <img
+        id="invitation-photo"
+        class="invitation-photo"
+        alt=""
+    >
+
+    <div
+        id="photo-placeholder"
+        class="photo-placeholder"
+    >
+        <span>♡</span>
+    </div>
+
+</div>
+
+                <div class="sender-line">
+                    от <span id="sender-name">тебя</span>
+                </div>
+
+                <h2>
+                    Я хочу пригласить тебя
+                    <br>
+                    на свидание
+                </h2>
+
+                <div class="message-card">
+
+                    <div class="message-mark">
+                        “
+                    </div>
+
+                    <p id="personal-message">
+                        У меня есть кое-что,
+                        что я хочу тебе сказать.
+                    </p>
+
+                </div>
+
+                <button
+                    id="show-options"
+                    class="text-button"
+                >
+                    Посмотреть
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- ЭКРАН 3 — ВЫБОР СВИДАНИЯ -->
+        <!-- ========================= -->
+
+        <section
+            id="screen-options"
+            class="screen"
+        >
+
+            <div class="page">
+
+                <div class="top-label">
+                    свидание
+                </div>
+
+                <div class="invitation-number">
+                    02
+                </div>
+
+                <h2 class="options-title">
+                    Как проведём
+                    <br>
+                    этот вечер?
+                </h2>
+
+                <p class="options-subtitle">
+                    Выбери то, что тебе
+                    хочется больше всего
+                </p>
+
+                <div
+                    id="date-options"
+                    class="date-options"
+                >
+                    <!--
+                        Варианты свиданий
+                        появятся здесь
+                        автоматически
+                    -->
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- ЭКРАН 4 — ДАТА И ВРЕМЯ -->
+        <!-- ========================= -->
+
+        
+<section
+    id="screen-datetime"
+    class="screen"
+>
+
+    <div class="page datetime-page">
+
+        <div class="top-label">
+            почти договорились
+        </div>
+
+        <div class="invitation-number">
+            03
+        </div>
+
+        <h2 class="datetime-title">
+            Когда тебе
+            <br>
+            будет удобно?
+        </h2>
+
+        <p class="datetime-subtitle">
+            Выбери день и время,
+            <br>
+            а остальное я беру на себя.
+        </p>
+
+        <div class="date-picker-card">
+
+            <div class="picker-label">
+                день
+            </div>
+
+            <input
+                id="date-input"
+                class="date-input"
+                type="date"
+            >
+
+        </div>
+
+        <div class="time-picker-card">
+
+            <div class="picker-label">
+                время
+            </div>
+
+            <input
+                id="time-input"
+                class="time-input"
+                type="time"
+            >
+
+        </div>
+
+        <button
+            id="confirm-datetime"
+            class="primary-button datetime-button"
+        >
+            <span>Выбрать это время</span>
+            <span class="button-arrow">→</span>
+        </button>
+
+        <button
+            id="back-to-options-from-datetime"
+            class="text-button"
+        >
+            Выбрать другое свидание
+            <span>↗</span>
+        </button>
+
+    </div>
+
+</section>
+
+
+        <section
+            id="screen-final"
+            class="screen"
+        >
+
+            <div class="page final-page">
+
+                <div class="final-heart">
+                    ♡
+                </div>
+
+                <div class="top-label">
+                    отлично
+                </div>
+
+                <h2>
+                    Значит,
+                    <br>
+                    это будет
+                </h2>
+
+                <div
+                    id="selected-date"
+                    class="selected-date"
+                >
+                    —
+                </div>
+
+                <p class="final-text">
+                    Осталось только выбрать
+                    подходящий момент.
+                </p>
+
+                <button
+                    id="back-to-options"
+                    class="text-button"
+                >
+                    Выбрать другой вариант
+                    <span>↗</span>
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="/app.js"></script>
+
+</body>
+</html>
