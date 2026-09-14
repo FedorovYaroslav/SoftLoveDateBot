@@ -348,11 +348,15 @@ async function saveChoiceAndFinish() {
 
 
     const selectedDate =
-        dateInput?.value || null;
+        invitation.date_mode === "sender"
+         ? invitation.selected_date
+         : dateInput?.value || null;
 
 
     const selectedTime =
-        timeInput?.value || null;
+        invitation.date_mode === "sender"
+         ? invitation.selected_time
+         : timeInput?.value || null;
 
 
     try {

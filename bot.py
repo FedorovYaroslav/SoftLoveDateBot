@@ -270,7 +270,9 @@ async def create_invitation_handler(
     await state.set_state(
         Invitation.recipient_name
     )
-
+    await state.update_data(
+        creator_chat_id=callback.from_user.id
+    )
     await callback.message.answer(
         "❤️ Как зовут человека, "
         "которого ты хочешь пригласить?"
@@ -763,19 +765,12 @@ async def create_final_invitation(
 
     invitation_id, public_token = (
         create_invitation(
-            recipient_name=data[
-                "recipient_name"
-            ],
-            sender_name=data[
-                "sender_name"
-            ],
-            personal_message=data[
-                "personal_message"
-            ],
-            photo_file_id=data.get(
-                "photo_file_id"
-            ),
+            recipient_name=data["recipient_name"],
+            sender_name=data["sender_name"],
+            personal_message=data["personal_message"],
+            photo_file_id=data.get("photo_file_id"),
             date_mode=date_mode,
+            creator_chat_id=data.get("creator_chat_id"),
         )
     )
 
@@ -1045,17 +1040,12 @@ async def assigned_time_handler(
 # ==========================================
 
 async def main():
-    from aiogram.client.session.aiohttp import AiohttpSession
+    from curl_session import CurlSession
 
-    session = AiohttpSession(
+    session = CurlSession(
+        proxy="127.0.0.1:10808",
         timeout=60,
-        proxy="socks5://127.0.0.1:10808",
     )
-
-    # Happ Plus использует сертификат,
-    # который Python не считает доверенным.
-    # Отключаем проверку TLS для соединения через локальный SOCKS5.
-    session._connector_init["ssl"] = False
 
     bot = Bot(
         token=BOT_TOKEN,

@@ -11,18 +11,17 @@ from dotenv import load_dotenv
 
 from database import (
     get_invitation_by_token,
+    get_invitation,
     get_options,
     save_invitation_choice,
 )
 
 
-# =========================
-# НАСТРОЙКИ
-# =========================
-
 load_dotenv()
 
+
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+
 
 if not BOT_TOKEN:
     raise ValueError(
@@ -33,18 +32,13 @@ if not BOT_TOKEN:
 app = FastAPI()
 
 
-# =========================
-# TELEGRAM
-# =========================
-
 TELEGRAM_IP = "149.154.166.110"
-
 TELEGRAM_HOST = "api.telegram.org"
 
 
-# =========================
-# ЗАПРОС К TELEGRAM API
-# =========================
+# ==========================================
+# ЗАПРОСЫ К TELEGRAM API
+# ==========================================
 
 def telegram_request(path):
 
@@ -58,19 +52,12 @@ def telegram_request(path):
         "--silent",
         "--show-error",
         "--location",
-
-        # Не ждать соединение бесконечно
         "--connect-timeout",
         "10",
-
-        # Не ждать ответ бесконечно
         "--max-time",
         "30",
-
-        # Используем рабочий IP Telegram
         "--resolve",
         f"{TELEGRAM_HOST}:443:{TELEGRAM_IP}",
-
         url,
     ]
 
@@ -94,9 +81,34 @@ def telegram_request(path):
     return 200, result.stdout
 
 
-# =========================
-# ПРИГЛАШЕНИЕ
-# =========================
+def send_telegram_message(chat_id, text):
+    import urllib.parse
+
+    encoded_text = urllib.parse.quote(text)
+
+    status, body = telegram_request(
+        f"/bot{BOT_TOKEN}/sendMessage"
+        f"?chat_id={chat_id}"
+        f"&text={encoded_text}"
+    )
+
+    if status != 200:
+        raise RuntimeError(
+            f"Telegram sendMessage вернул HTTP {status}"
+        )
+
+    data = json.loads(
+        body.decode("utf-8")
+    )
+
+    if not data.get("ok"):
+        raise RuntimeError(
+            f"Telegram не отправил сообщение: {data}"
+        )
+
+# ==========================================
+# ПОЛУЧИТЬ ПРИГЛАШЕНИЕ
+# ==========================================
 
 @app.get(
     "/api/invitation/{public_token}"
@@ -109,6 +121,7 @@ def get_invitation_data(
         public_token
     )
 
+
     if invitation is None:
 
         raise HTTPException(
@@ -116,12 +129,16 @@ def get_invitation_data(
             detail="Приглашение не найдено",
         )
 
+
     options = get_options(
         invitation["id"]
     )
 
+
     return {
-        "id": invitation["id"],
+
+        "id":
+            invitation["id"],
 
         "recipient_name":
             invitation["recipient_name"],
@@ -138,46 +155,60 @@ def get_invitation_data(
         "date_mode":
             invitation["date_mode"],
 
+        # ==================================
+        # НАЗНАЧЕННАЯ ДАТА И ВРЕМЯ
+        # ==================================
+
+        "selected_date":
+            invitation["selected_date"],
+
+        "selected_time":
+            invitation["selected_time"],
+
+        # ==================================
+        # ВАРИАНТЫ СВИДАНИЯ
+        # ==================================
+
         "options": [
+
             {
-                "id": option["id"],
-                "emoji": option["emoji"],
-                "title": option["title"],
+                "id":
+                    option["id"],
+
+                "emoji":
+                    option["emoji"],
+
+                "title":
+                    option["title"],
             }
+
             for option in options
         ],
     }
 
 
-# =========================
-# СОХРАНЕНИЕ ВЫБОРА
-# =========================
+# ==========================================
+# СОХРАНИТЬ ВЫБОР ПОЛУЧАТЕЛЯ
+# ==========================================
 
-@app.post(
-    "/api/invitation/{invitation_id}/choice"
-)
-def save_choice(
-    invitation_id: int,
-    data: dict,
-):
-
-    selected_option = data.get(
-        "selected_option"
-    )
-
-    selected_date = data.get(
-        "selected_date"
-    )
-
-    selected_time = data.get(
-        "selected_time"
-    )
+@app.post("/api/invitation/{invitation_id}/choice")
+def save_choice(invitation_id: int, data: dict):
+    selected_option = data.get("selected_option")
+    selected_date = data.get("selected_date")
+    selected_time = data.get("selected_time")
 
     if not selected_option:
-
         raise HTTPException(
             status_code=400,
-            detail="Не выбран вариант свидания",
+            detail="Не выбран вариант свидания"
+        )
+
+    invitation = get_invitation(invitation_id)
+
+    if invitation is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Приглашение не найдено"
         )
 
     save_invitation_choice(
@@ -187,15 +218,46 @@ def save_choice(
         selected_time=selected_time,
     )
 
+    creator_chat_id = invitation["creator_chat_id"]
+
+    if creator_chat_id:
+        recipient_name = invitation["recipient_name"]
+
+        message_text = (
+            f"💌 {recipient_name} выбрала свидание!\n\n"
+            f"✨ {selected_option}\n"
+        )
+
+        if selected_date:
+            message_text += (
+                f"📅 Дата: {selected_date}\n"
+            )
+
+        if selected_time:
+            message_text += (
+                f"⏰ Время: {selected_time}\n"
+            )
+
+        try:
+            send_telegram_message(
+                creator_chat_id,
+                message_text,
+            )
+        except Exception as error:
+            print(
+                "⚠️ Не удалось отправить "
+                f"уведомление создателю: {error}"
+            )
+
     return {
         "ok": True,
         "message": "Выбор сохранён",
     }
 
 
-# =========================
-# ФОТО
-# =========================
+# ==========================================
+# ПОЛУЧИТЬ ФОТОГРАФИЮ ИЗ TELEGRAM
+# ==========================================
 
 @app.get(
     "/api/photo/{file_id}"
@@ -211,14 +273,17 @@ def get_photo(
             detail="BOT_TOKEN не найден",
         )
 
-    # =====================
-    # 1. Получаем путь файла
-    # =====================
+
+    # --------------------------------------
+    # Получаем путь к файлу
+    # --------------------------------------
 
     try:
 
         status, body = telegram_request(
-            f"/bot{BOT_TOKEN}/getFile"
+
+            f"/bot{BOT_TOKEN}"
+            f"/getFile"
             f"?file_id={file_id}"
         )
 
@@ -232,6 +297,7 @@ def get_photo(
             ),
         )
 
+
     if status != 200:
 
         raise HTTPException(
@@ -241,6 +307,11 @@ def get_photo(
                 f"HTTP {status}"
             ),
         )
+
+
+    # --------------------------------------
+    # Разбираем ответ Telegram
+    # --------------------------------------
 
     try:
 
@@ -258,6 +329,7 @@ def get_photo(
             ),
         )
 
+
     if not data.get("ok"):
 
         raise HTTPException(
@@ -268,18 +340,23 @@ def get_photo(
             ),
         )
 
+
     file_path = data[
         "result"
-    ]["file_path"]
+    ][
+        "file_path"
+    ]
 
-    # =====================
-    # 2. Скачиваем фото
-    # =====================
+
+    # --------------------------------------
+    # Скачиваем фотографию
+    # --------------------------------------
 
     try:
 
         status, photo_data = (
             telegram_request(
+
                 f"/file/bot"
                 f"{BOT_TOKEN}/"
                 f"{file_path}"
@@ -296,6 +373,7 @@ def get_photo(
             ),
         )
 
+
     if status != 200:
 
         raise HTTPException(
@@ -306,25 +384,33 @@ def get_photo(
             ),
         )
 
-    # =====================
-    # 3. Возвращаем фото
-    # =====================
+
+    # --------------------------------------
+    # Отдаём фотографию браузеру
+    # --------------------------------------
 
     return StreamingResponse(
-        io.BytesIO(photo_data),
+
+        io.BytesIO(
+            photo_data
+        ),
+
         media_type="image/jpeg",
     )
 
 
-# =========================
-# ВЕБ-САЙТ
-# =========================
+# ==========================================
+# WEB APP
+# ==========================================
 
 app.mount(
+
     "/",
+
     StaticFiles(
         directory="web",
         html=True,
     ),
+
     name="web",
 )
