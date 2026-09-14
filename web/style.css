@@ -470,3 +470,18 @@ textarea {
         font-size: 38px;
     }
 }
+
+
+/* ===== Screen navigation ===== */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Screen navigation fix */
+.screen { display: none !important; }
+.screen.active { display: flex !important; }
