@@ -1,166 +1,564 @@
-/* ===== SoftLoveDate — premium romantic style ===== */
+/* =========================================================
+   SoftLoveDate
+   Premium editorial romantic interface
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap');
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
 
 :root {
-    --bg: #f8f3f4;
-    --card: rgba(255, 255, 255, 0.78);
+    --bg: #f7f1f3;
+    --bg-soft: #fbf7f8;
+
     --text: #33282d;
-    --muted: #8c7d83;
-    --accent: #c98296;
-    --accent-dark: #a96278;
-    --line: rgba(80, 50, 60, 0.10);
-    --shadow: 0 24px 70px rgba(72, 43, 52, 0.13);
+    --text-soft: #675a60;
+    --muted: #9b8d93;
+
+    --accent: #b9798c;
+    --accent-dark: #8f586b;
+    --accent-soft: #ead6dc;
+
+    --white: #ffffff;
+    --line: rgba(70, 45, 55, 0.10);
+
+    --shadow:
+        0 25px 70px rgba(70, 45, 55, 0.10);
+
+    --shadow-soft:
+        0 12px 35px rgba(70, 45, 55, 0.08);
+
+    --radius: 24px;
+    --radius-small: 16px;
 }
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
 
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body {
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
-    min-height: 100%;
 }
 
 body {
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        "SF Pro Text",
-        "Helvetica Neue",
-        Arial,
-        sans-serif;
-
-    color: var(--text);
+    overflow: hidden;
 
     background:
         radial-gradient(
             circle at 20% 10%,
-            rgba(235, 190, 202, 0.42),
-            transparent 34%
-        ),
-        radial-gradient(
-            circle at 90% 80%,
-            rgba(224, 188, 198, 0.30),
+            rgba(255, 255, 255, 0.9),
             transparent 35%
         ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(232, 201, 211, 0.35),
+            transparent 40%
+        ),
         var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        "DM Sans",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
 
 button,
-input,
-textarea {
+input {
     font: inherit;
 }
 
 button {
-    -webkit-tap-highlight-color: transparent;
-    cursor: pointer;
+    border: 0;
+    outline: none;
 }
 
-/* ===== Main layout ===== */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   APP
+   ========================================================= */
 
 .app {
+    position: relative;
+
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
 
-    display: flex;
-    justify-content: center;
+    min-height: 100dvh;
 
-    padding: 22px 16px 34px;
+    overflow: hidden;
 }
+
+
+/* =========================================================
+   SCREEN NAVIGATION
+   ========================================================= */
 
 .screen {
+    position: absolute;
+
+    inset: 0;
+
+    display: none !important;
+
     width: 100%;
-    max-width: 460px;
-    min-height: calc(100vh - 56px);
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.screen.active {
+    display: flex !important;
+}
+
+
+/* =========================================================
+   COMMON PAGE
+   ========================================================= */
+
+.page {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: 520px;
+
+    margin: 0 auto;
+
+    padding:
+        max(42px, env(safe-area-inset-top))
+        24px
+        max(30px, env(safe-area-inset-bottom));
 
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: none;
 }
 
-.card {
-    width: 100%;
-
-    padding: 22px;
-
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    border-radius: 34px;
-
-    background: var(--card);
-
-    box-shadow: var(--shadow);
-
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-
-    animation: cardAppear 0.8s ease both;
+.page::-webkit-scrollbar {
+    display: none;
 }
 
-@keyframes cardAppear {
-    from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.985);
-    }
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* ===== Typography ===== */
-
-.eyebrow {
-    margin: 4px 0 10px;
-
-    color: var(--muted);
-
-    font-size: 12px;
-    line-height: 1.4;
-
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-}
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
 
 h1,
 h2,
-h3 {
+p {
     margin: 0;
+}
 
-    font-weight: 500;
+h1,
+h2 {
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
 
+    font-weight: 400;
     letter-spacing: -0.035em;
 }
 
-h1 {
-    font-size: clamp(34px, 9vw, 48px);
-    line-height: 0.98;
-}
-
 h2 {
-    font-size: 30px;
-    line-height: 1.05;
+    font-size: 34px;
+    line-height: 1.08;
 }
 
-p {
-    line-height: 1.55;
+
+/* =========================================================
+   SMALL LABELS
+   ========================================================= */
+
+.top-label,
+.eyebrow {
+    font-size: 10px;
+    line-height: 1;
+
+    text-transform: uppercase;
+    letter-spacing: 0.20em;
+
+    color: var(--muted);
 }
 
-/* ===== Photo ===== */
+
+/* =========================================================
+   PAGE NUMBER
+   ========================================================= */
+
+.invitation-number {
+    position: absolute;
+
+    top: max(40px, env(safe-area-inset-top));
+    right: 24px;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    letter-spacing: 0.16em;
+
+    color: rgba(80, 55, 65, 0.28);
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.primary-button {
+    position: relative;
+
+    width: 100%;
+    min-height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px 0 23px;
+
+    border-radius: 999px;
+
+    background: var(--text);
+    color: white;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 30px rgba(50, 40, 45, 0.16);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+}
+
+.primary-button:active {
+    transform: scale(0.975);
+
+    box-shadow:
+        0 7px 18px rgba(50, 40, 45, 0.12);
+}
+
+.primary-button span:first-child {
+    font-size: 14px;
+    font-weight: 500;
+
+    letter-spacing: 0.01em;
+}
+
+.button-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   TEXT BUTTON
+   ========================================================= */
+
+.text-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    align-self: center;
+
+    padding: 10px 4px;
+
+    background: transparent;
+
+    color: var(--text-soft);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    letter-spacing: 0.01em;
+
+    cursor: pointer;
+
+    transition:
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+.text-button span {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.text-button:active {
+    transform: scale(0.97);
+    color: var(--accent-dark);
+}
+
+
+/* =========================================================
+   SCREEN 1 — COVER
+   ========================================================= */
+
+#screen-cover {
+    position: relative;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            rgba(255, 255, 255, 0.95),
+            transparent 45%
+        ),
+        linear-gradient(
+            145deg,
+            #f8f0f2 0%,
+            #f5ebee 100%
+        );
+}
+
+
+/* Decorative blurred shapes */
+
+.ambient {
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(2px);
+}
+
+.ambient-one {
+    width: 280px;
+    height: 280px;
+
+    top: -130px;
+    right: -100px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(221, 178, 191, 0.35),
+            transparent 70%
+        );
+}
+
+.ambient-two {
+    width: 240px;
+    height: 240px;
+
+    bottom: -110px;
+    left: -90px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.85),
+            transparent 70%
+        );
+}
+
+
+/* Cover content */
+
+.cover-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(100%, 390px);
+
+    padding:
+        30px 28px
+        max(40px, env(safe-area-inset-bottom));
+
+    text-align: center;
+}
+
+#screen-cover .eyebrow {
+    margin-bottom: 14px;
+}
+
+#screen-cover h1 {
+    font-size: clamp(54px, 15vw, 78px);
+    line-height: 0.98;
+
+    color: var(--text);
+}
+
+.cover-description {
+    margin-top: 25px;
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    color: var(--text-soft);
+}
+
+#open-invitation {
+    margin-top: 38px;
+}
+
+.cover-signature {
+    margin-top: 21px;
+
+    font-size: 10px;
+    line-height: 1.6;
+
+    letter-spacing: 0.04em;
+
+    color: var(--muted);
+}
+
+.cover-signature span {
+    color: var(--accent-dark);
+}
+
+
+/* Floating hearts */
+
+.floating-heart {
+    position: absolute;
+
+    z-index: 1;
+
+    color: rgba(157, 92, 111, 0.20);
+
+    font-family: Georgia, serif;
+
+    pointer-events: none;
+
+    animation:
+        softFloat 5s ease-in-out infinite;
+}
+
+.heart-one {
+    top: 19%;
+    left: 11%;
+
+    font-size: 23px;
+}
+
+.heart-two {
+    top: 30%;
+    right: 10%;
+
+    font-size: 15px;
+
+    animation-delay: 1.5s;
+}
+
+.heart-three {
+    bottom: 18%;
+    left: 18%;
+
+    font-size: 13px;
+
+    animation-delay: 2.5s;
+}
+
+@keyframes softFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+
+/* =========================================================
+   SCREEN 2 — INVITATION
+   ========================================================= */
+
+#screen-invitation {
+    background:
+        linear-gradient(
+            180deg,
+            #f8f2f4 0%,
+            #f6eef1 100%
+        );
+}
+
+#screen-invitation .page {
+    padding-top:
+        max(46px, env(safe-area-inset-top));
+}
+
+#screen-invitation .top-label {
+    margin-bottom: 24px;
+}
+
+.sender-line {
+    margin-top: 18px;
+
+    font-size: 11px;
+
+    color: var(--muted);
+
+    letter-spacing: 0.03em;
+}
+
+#screen-invitation h2 {
+    margin-top: 10px;
+
+    font-size: clamp(30px, 8vw, 38px);
+
+    color: var(--text);
+}
+
+
+/* Photo */
 
 .photo-frame {
     position: relative;
 
     width: 100%;
-    aspect-ratio: 4 / 5;
 
-    margin-bottom: 24px;
+    aspect-ratio: 1 / 1.08;
 
     overflow: hidden;
 
@@ -169,782 +567,705 @@ p {
     background:
         linear-gradient(
             145deg,
-            rgba(230, 199, 207, 0.65),
-            rgba(250, 244, 246, 0.92)
+            #eee0e5,
+            #e5d2d9
         );
 
-    box-shadow:
-        0 18px 45px rgba(65, 38, 48, 0.13),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-}
+    box-shadow: var(--shadow);
 
-.photo-frame::after {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(30, 15, 20, 0.02),
-            transparent 55%,
-            rgba(30, 15, 20, 0.18)
-        );
+    flex-shrink: 0;
 }
 
 .invitation-photo {
     width: 100%;
     height: 100%;
 
-    display: none;
-
     object-fit: cover;
-
-    border-radius: inherit;
-
-    animation: photoAppear 1s ease both;
-}
-
-@keyframes photoAppear {
-    from {
-        opacity: 0;
-        transform: scale(1.035);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 
 .photo-placeholder {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+
+    inset: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    color: rgba(169, 98, 120, 0.65);
-
-    font-size: 48px;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(255, 255, 255, 0.75),
+            transparent 50%
+        ),
+        #eadde2;
 }
 
 .photo-placeholder span {
-    animation: heartbeat 2.2s ease-in-out infinite;
+    font-family: Georgia, serif;
+
+    font-size: 46px;
+
+    color: rgba(143, 88, 107, 0.30);
 }
 
-@keyframes heartbeat {
-    0%,
-    100% {
-        transform: scale(1);
-    }
 
-    8% {
-        transform: scale(1.12);
-    }
+/* Message */
 
-    16% {
-        transform: scale(1);
-    }
-}
+.message-card {
+    position: relative;
 
-/* ===== Invitation text ===== */
+    margin-top: 25px;
 
-.invitation-copy {
-    padding: 0 4px 4px;
-}
+    padding:
+        23px
+        23px
+        21px;
 
-.invitation-copy .personal-message {
-    margin: 18px 0 0;
-
-    color: var(--muted);
-
-    font-size: 16px;
-    line-height: 1.65;
-}
-
-/* ===== Buttons ===== */
-
-button {
-    border: 0;
-}
-
-.primary-button {
-    width: 100%;
-
-    margin-top: 24px;
-    padding: 16px 20px;
-
-    border-radius: 18px;
-
-    color: #ffffff;
+    border-radius: var(--radius-small);
 
     background:
+        rgba(255, 255, 255, 0.62);
+
+    border: 1px solid rgba(255, 255, 255, 0.75);
+
+    box-shadow: var(--shadow-soft);
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.message-mark {
+    margin-bottom: 5px;
+
+    font-family: Georgia, serif;
+
+    font-size: 30px;
+    line-height: 0.7;
+
+    color: var(--accent);
+}
+
+.message-card p {
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 18px;
+    line-height: 1.5;
+
+    color: var(--text);
+}
+
+#screen-invitation .text-button {
+    margin-top: 19px;
+    margin-bottom: 3px;
+}
+
+
+/* =========================================================
+   SCREEN 3 — DATE OPTIONS
+   ========================================================= */
+
+#screen-options {
+    background:
         linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent-dark)
+            180deg,
+            #f8f2f4 0%,
+            #f5edef 100%
         );
-
-    box-shadow:
-        0 12px 28px rgba(169, 98, 120, 0.24);
-
-    font-size: 16px;
-    font-weight: 600;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        filter 0.2s ease;
 }
 
-.primary-button:hover {
-    filter: brightness(1.03);
-
-    box-shadow:
-        0 16px 34px rgba(169, 98, 120, 0.28);
+#screen-options .page {
+    padding-top:
+        max(47px, env(safe-area-inset-top));
 }
 
-.primary-button:active {
-    transform: scale(0.98);
+.options-title {
+    margin-top: 40px;
+
+    font-size: clamp(34px, 9vw, 42px);
+
+    line-height: 1.05;
 }
 
-/* ===== Date options ===== */
+.options-subtitle {
+    margin-top: 15px;
 
-.options {
-    display: grid;
+    font-size: 13px;
+    line-height: 1.55;
 
+    color: var(--text-soft);
+}
+
+
+/* Options container */
+
+.date-options {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
 
-    margin-top: 22px;
+    margin-top: 29px;
+
+    padding-bottom: 30px;
 }
 
-.option-button {
+
+/* Individual option */
+
+.date-option {
+    position: relative;
+
     width: 100%;
+    min-height: 76px;
 
     display: flex;
     align-items: center;
 
-    gap: 14px;
+    padding: 0 18px;
 
-    padding: 17px 16px;
+    border-radius: 20px;
 
-    text-align: left;
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    border: 1px solid rgba(90, 60, 70, 0.08);
+
+    box-shadow:
+        0 7px 25px rgba(70, 45, 55, 0.055);
 
     color: var(--text);
 
-    border: 1px solid var(--line);
-    border-radius: 20px;
+    cursor: pointer;
 
-    background: rgba(255, 255, 255, 0.64);
-
-    box-shadow:
-        0 8px 24px rgba(70, 40, 50, 0.05);
+    text-align: left;
 
     transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease;
+        transform 160ms ease,
+        background 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease;
 }
 
-.option-button:hover {
-    transform: translateY(-2px);
-
-    background: rgba(255, 255, 255, 0.9);
-
-    box-shadow:
-        0 12px 30px rgba(70, 40, 50, 0.09);
-}
-
-.option-button:active {
+.date-option:active {
     transform: scale(0.985);
 }
 
-.option-emoji {
-    width: 44px;
-    height: 44px;
+.date-option.selected {
+    background:
+        rgba(245, 228, 234, 0.92);
 
-    flex: 0 0 44px;
+    border-color:
+        rgba(185, 121, 140, 0.34);
+
+    box-shadow:
+        0 10px 30px rgba(100, 60, 75, 0.09);
+}
+
+
+/* Icon circle */
+
+.date-option-emoji {
+    flex: 0 0 auto;
+
+    width: 43px;
+    height: 43px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 15px;
+    margin-right: 15px;
 
-    background: rgba(201, 130, 150, 0.10);
+    border-radius: 50%;
 
-    font-size: 21px;
+    background:
+        #f3e5e9;
+
+    font-size: 19px;
+
+    line-height: 1;
+
+    filter: saturate(0.75);
 }
 
-.option-title {
-    font-size: 16px;
+
+/* Option title */
+
+.date-option-title {
+    font-size: 14px;
     font-weight: 500;
-}
-
-/* ===== Inputs ===== */
-
-.input-group {
-    margin-top: 18px;
-}
-
-.input-group label {
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: var(--muted);
-
-    font-size: 13px;
-}
-
-input,
-textarea {
-    width: 100%;
-
-    padding: 15px 16px;
-
-    border: 1px solid var(--line);
-    border-radius: 17px;
-
-    outline: none;
 
     color: var(--text);
-
-    background: rgba(255, 255, 255, 0.76);
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
 }
-
-input:focus,
-textarea:focus {
-    border-color: rgba(201, 130, 150, 0.55);
-
-    box-shadow:
-        0 0 0 4px rgba(201, 130, 150, 0.10);
-}
-
-textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-/* ===== Utility ===== */
-
-.muted {
-    color: var(--muted);
-}
-
-.center {
-    text-align: center;
-}
-
-/* ===== Mobile ===== */
-
-@media (max-width: 480px) {
-    .app {
-        padding: 12px 10px 24px;
-    }
-
-    .screen {
-        min-height: calc(100vh - 36px);
-    }
-
-    .card {
-        padding: 16px;
-        border-radius: 29px;
-    }
-
-    .photo-frame {
-        border-radius: 24px;
-        margin-bottom: 21px;
-    }
-
-    h1 {
-        font-size: 38px;
-    }
-}
-
-
-/* ===== Screen navigation ===== */
-
-.screen {
-    display: none;
-}
-
-.screen.active {
-    display: flex;
-}
-
-/* Screen navigation fix */
-.screen { display: none !important; }
-.screen.active { display: flex !important; }
 
 
 /* =========================================================
-   PREMIUM REFINEMENT — COVER + INVITATION
+   SCREEN 4 — DATE / TIME
    ========================================================= */
 
-
-/* ---------------------------------------------------------
-   COVER — editorial composition
-   --------------------------------------------------------- */
-
-#screen-cover {
-    padding:
-        max(24px, env(safe-area-inset-top))
-        22px
-        max(28px, env(safe-area-inset-bottom))
-        22px;
-
-    overflow: hidden;
-}
-
-#screen-cover::before {
-    content: "";
-
-    position: absolute;
-
-    width: 360px;
-    height: 360px;
-
-    top: -150px;
-    right: -150px;
-
-    border-radius: 50%;
-
+#screen-datetime {
     background:
-        radial-gradient(
-            circle,
-            rgba(213, 151, 171, 0.20),
-            rgba(213, 151, 171, 0) 70%
+        linear-gradient(
+            180deg,
+            #f8f2f4 0%,
+            #f5edef 100%
         );
-
-    pointer-events: none;
 }
 
-#screen-cover::after {
-    content: "";
+.datetime-page {
+    padding-top:
+        max(47px, env(safe-area-inset-top));
+}
 
-    position: absolute;
+.datetime-title {
+    margin-top: 40px;
 
-    width: 300px;
-    height: 300px;
+    font-size: clamp(34px, 9vw, 42px);
 
-    left: -170px;
-    bottom: -130px;
+    line-height: 1.05;
+}
 
-    border-radius: 50%;
+.datetime-subtitle {
+    margin-top: 15px;
 
-    background:
-        radial-gradient(
-            circle,
-            rgba(229, 194, 204, 0.30),
-            rgba(229, 194, 204, 0) 70%
-        );
+    font-size: 13px;
+    line-height: 1.55;
 
-    pointer-events: none;
+    color: var(--text-soft);
 }
 
 
-.cover-content {
-    width: min(100%, 390px);
+/* Date / time cards */
 
-    margin: 0;
-
-    transform: translateY(-2vh);
-}
-
-
-/* маленькая подпись сверху */
-
-.cover-content .eyebrow {
+.date-picker-card,
+.time-picker-card {
     position: relative;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    margin: 0 0 14px;
-
-    color: #9d8d93;
-
-    font-size: 11px;
-    font-weight: 500;
-
-    letter-spacing: 0.20em;
-}
-
-
-/* тонкая линия рядом с "для" */
-
-.cover-content .eyebrow::after {
-    content: "";
-
-    width: 28px;
-    height: 1px;
-
-    margin-left: 10px;
-
-    background: rgba(169, 98, 120, 0.28);
-}
-
-
-/* имя */
-
-#screen-cover h1 {
-    font-family:
-        "Playfair Display",
-        Georgia,
-        serif;
-
-    font-size: clamp(50px, 14vw, 68px);
-
-    font-weight: 500;
-
-    line-height: 0.95;
-
-    letter-spacing: -0.045em;
-
-    color: #30262b;
-}
-
-
-/* описание */
-
-.cover-description {
-    max-width: 280px;
 
     margin-top: 25px;
 
-    color: #685a60;
+    padding: 18px;
 
-    font-size: 16px;
-    line-height: 1.55;
+    border-radius: 20px;
 
-    letter-spacing: -0.01em;
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    border: 1px solid rgba(90, 60, 70, 0.08);
+
+    box-shadow:
+        0 8px 28px rgba(70, 45, 55, 0.055);
+}
+
+.time-picker-card {
+    margin-top: 11px;
+}
+
+.picker-label {
+    margin-bottom: 10px;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+
+    color: var(--muted);
 }
 
 
-/* кнопка */
+/* Inputs */
 
-#open-invitation {
-    width: auto;
-    min-width: 235px;
+.date-input,
+.time-input {
+    display: block;
 
-    margin-top: 34px;
+    width: 100%;
+    height: 46px;
 
-    padding: 15px 19px 15px 21px;
+    padding: 0 12px;
 
-    justify-content: space-between;
+    border: 1px solid rgba(80, 50, 60, 0.10);
 
-    border-radius: 17px;
+    border-radius: 13px;
 
-    box-shadow:
-        0 12px 30px rgba(169, 98, 120, 0.20);
+    background:
+        rgba(248, 243, 245, 0.82);
+
+    color: var(--text);
 
     font-size: 14px;
 
-    letter-spacing: -0.01em;
-}
+    outline: none;
 
-#open-invitation .button-arrow {
-    margin-left: 13px;
-
-    font-size: 17px;
-
-    transition: transform 0.2s ease;
-}
-
-#open-invitation:active .button-arrow {
-    transform: translateX(3px);
-}
-
-
-/* подпись */
-
-.cover-signature {
-    margin-top: 15px;
-
-    color: #a29499;
-
-    font-size: 11px;
-    line-height: 1.5;
-
-    letter-spacing: 0.01em;
-}
-
-.cover-signature span {
-    color: #76666d;
-}
-
-
-/* сердца делаем почти незаметными */
-
-.floating-heart {
-    color: rgba(169, 98, 120, 0.20);
-
-    font-family:
-        "Playfair Display",
-        Georgia,
-        serif;
-
-    font-weight: 400;
-}
-
-.heart-one {
-    top: 19%;
-    right: 14%;
-
-    font-size: 24px;
-}
-
-.heart-two {
-    top: 37%;
-    right: 7%;
-
-    font-size: 13px;
-}
-
-.heart-three {
-    left: 11%;
-    bottom: 18%;
-
-    font-size: 16px;
-}
-
-
-/* ---------------------------------------------------------
-   INVITATION SCREEN
-   --------------------------------------------------------- */
-
-#screen-invitation {
-    padding:
-        max(18px, env(safe-area-inset-top))
-        18px
-        max(24px, env(safe-area-inset-bottom))
-        18px;
-
-    overflow-y: auto;
-}
-
-#screen-invitation .page {
-    width: min(100%, 400px);
-
-    padding:
-        2px
-        0
-        24px;
-}
-
-
-/* верхняя строка */
-
-#screen-invitation .top-label {
-    margin-bottom: 5px;
-
-    color: #a09096;
-
-    font-size: 11px;
-
-    letter-spacing: 0.05em;
-}
-
-#screen-invitation .invitation-number {
-    margin-bottom: 15px;
-
-    color: #b1a2a7;
-
-    font-size: 10px;
-
-    letter-spacing: 0.10em;
-}
-
-
-/* ---------------------------------------------------------
-   PHOTO CARD
-   --------------------------------------------------------- */
-
-#screen-invitation .photo-frame {
-    width: 100%;
-
-    aspect-ratio: 4 / 4.7;
-
-    margin-bottom: 22px;
-
-    border-radius: 30px;
-
-    box-shadow:
-        0 22px 60px rgba(63, 37, 47, 0.14),
-        0 2px 5px rgba(63, 37, 47, 0.04);
-
-    background: #eee4e7;
-}
-
-
-/* фото */
-
-#screen-invitation .invitation-photo {
-    object-position: center center;
+    appearance: none;
+    -webkit-appearance: none;
 
     transition:
-        transform 0.7s ease,
-        opacity 0.6s ease;
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.date-input:focus,
+.time-input:focus {
+    border-color:
+        rgba(185, 121, 140, 0.55);
+
+    box-shadow:
+        0 0 0 3px rgba(185, 121, 140, 0.09);
 }
 
 
-/* нижний градиент */
+/* Confirmation button */
 
-#screen-invitation .photo-frame::after {
+.datetime-button {
+    margin-top: 22px;
+}
+
+
+/* Back button */
+
+#back-to-options-from-datetime {
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   SCREEN 5 — FINAL
+   ========================================================= */
+
+#screen-final {
     background:
+        radial-gradient(
+            circle at 50% 38%,
+            rgba(255, 255, 255, 0.90),
+            transparent 42%
+        ),
         linear-gradient(
-            to bottom,
-            rgba(30, 15, 20, 0) 50%,
-            rgba(30, 15, 20, 0.10) 100%
+            145deg,
+            #f8f0f2 0%,
+            #f4e9ed 100%
         );
 }
 
+.final-page {
+    align-items: center;
 
-/* ---------------------------------------------------------
-   TEXT UNDER PHOTO
-   --------------------------------------------------------- */
+    justify-content: center;
 
-#screen-invitation .sender-line {
-    margin-bottom: 8px;
+    text-align: center;
 
-    color: #9b8c92;
-
-    font-size: 11px;
-
-    letter-spacing: 0.02em;
+    padding-top:
+        max(50px, env(safe-area-inset-top));
 }
 
-#screen-invitation h2 {
-    max-width: 360px;
+.final-heart {
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 28px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.75);
+
+    box-shadow:
+        0 12px 35px rgba(80, 45, 60, 0.08);
+
+    font-family: Georgia, serif;
+
+    font-size: 30px;
+
+    color: var(--accent);
+}
+
+.final-page .top-label {
+    margin-bottom: 17px;
+}
+
+.final-page h2 {
+    font-size: clamp(38px, 10vw, 48px);
+
+    line-height: 1.04;
+}
+
+
+/* Selected date */
+
+.selected-date {
+    margin-top: 28px;
+
+    max-width: 90%;
+
+    padding:
+        15px 20px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 255, 255, 0.66);
+
+    border: 1px solid rgba(90, 60, 70, 0.07);
+
+    box-shadow:
+        0 9px 28px rgba(70, 45, 55, 0.06);
 
     font-family:
         "Playfair Display",
         Georgia,
         serif;
 
-    color: #30262b;
+    font-size: 18px;
+    line-height: 1.45;
 
-    font-size: clamp(31px, 8.5vw, 40px);
+    color: var(--text);
 
-    font-weight: 500;
-
-    line-height: 0.99;
-
-    letter-spacing: -0.045em;
+    white-space: pre-line;
 }
 
+.final-text {
+    max-width: 280px;
 
-/* ---------------------------------------------------------
-   MESSAGE
-   --------------------------------------------------------- */
-
-#screen-invitation .message-card {
-    margin-top: 21px;
-
-    padding:
-        17px
-        18px
-        18px
-        21px;
-
-    border: 1px solid rgba(255, 255, 255, 0.80);
-
-    border-radius: 19px;
-
-    background:
-        rgba(255, 255, 255, 0.46);
-
-    box-shadow:
-        0 8px 26px rgba(70, 40, 50, 0.035);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-}
-
-#screen-invitation .message-mark {
-    top: 8px;
-    left: 11px;
-
-    color: rgba(201, 130, 150, 0.32);
-
-    font-size: 28px;
-}
-
-#screen-invitation #personal-message {
-    padding-left: 13px;
-
-    color: #6b5d63;
-
-    font-size: 14px;
-
-    line-height: 1.58;
-}
-
-
-/* ссылка "посмотреть" */
-
-#screen-invitation #show-options {
     margin-top: 17px;
 
-    color: #a96278;
+    font-size: 12px;
+    line-height: 1.6;
 
-    font-size: 13px;
-
-    letter-spacing: -0.005em;
+    color: var(--text-soft);
 }
 
-#screen-invitation #show-options span {
-    transition: transform 0.2s ease;
-}
-
-#screen-invitation #show-options:active span {
-    transform: translateX(3px);
+#back-to-options {
+    margin-top: 22px;
 }
 
 
-/* ---------------------------------------------------------
-   MOBILE HEIGHT ADAPTATION
-   --------------------------------------------------------- */
+/* =========================================================
+   RESPONSIVE — SHORT SCREENS
+   ========================================================= */
 
-@media (max-height: 720px) {
-
-    .cover-content {
-        transform: translateY(-1vh);
-    }
+@media (max-height: 760px) {
 
     #screen-cover h1 {
-        font-size: 48px;
+        font-size: 54px;
     }
 
     .cover-description {
-        margin-top: 18px;
+        margin-top: 19px;
     }
 
     #open-invitation {
-        margin-top: 25px;
+        margin-top: 27px;
     }
 
-    #screen-invitation .photo-frame {
-        aspect-ratio: 4 / 4.4;
-        margin-bottom: 17px;
+    .photo-frame {
+        aspect-ratio: 1 / 0.95;
     }
 
     #screen-invitation h2 {
         font-size: 29px;
     }
 
-    #screen-invitation .message-card {
+    .message-card {
+        margin-top: 17px;
+        padding: 18px 20px;
+    }
+
+    .message-card p {
+        font-size: 16px;
+    }
+
+    .options-title,
+    .datetime-title {
+        margin-top: 31px;
+    }
+
+    .date-options {
+        margin-top: 21px;
+        gap: 9px;
+    }
+
+    .date-option {
+        min-height: 65px;
+    }
+
+    .date-picker-card {
+        margin-top: 19px;
+    }
+}
+
+
+@media (max-height: 680px) {
+
+    .page {
+        padding-top:
+            max(32px, env(safe-area-inset-top));
+    }
+
+    #screen-cover h1 {
+        font-size: 49px;
+    }
+
+    .cover-description {
         margin-top: 15px;
+    }
+
+    #open-invitation {
+        margin-top: 22px;
+        min-height: 53px;
+    }
+
+    .cover-signature {
+        margin-top: 14px;
+    }
+
+    #screen-invitation .top-label {
+        margin-bottom: 16px;
+    }
+
+    .photo-frame {
+        aspect-ratio: 1 / 0.88;
+        border-radius: 23px;
+    }
+
+    .sender-line {
+        margin-top: 12px;
+    }
+
+    #screen-invitation h2 {
+        margin-top: 6px;
+        font-size: 27px;
+    }
+
+    .message-card {
+        margin-top: 13px;
+        padding: 15px 17px;
+    }
+
+    .message-card p {
+        font-size: 15px;
+    }
+
+    #screen-invitation .text-button {
+        margin-top: 11px;
+    }
+
+    .options-title,
+    .datetime-title {
+        margin-top: 27px;
+    }
+
+    .options-subtitle,
+    .datetime-subtitle {
+        margin-top: 10px;
+    }
+
+    .date-options {
+        margin-top: 17px;
+    }
+
+    .date-option {
+        min-height: 59px;
+        border-radius: 17px;
+    }
+
+    .date-option-emoji {
+        width: 36px;
+        height: 36px;
+        margin-right: 12px;
+    }
+
+    .date-option-title {
+        font-size: 13px;
+    }
+
+    .date-picker-card,
+    .time-picker-card {
+        padding: 14px;
+        border-radius: 17px;
+    }
+
+    .date-input,
+    .time-input {
+        height: 42px;
+    }
+
+    .datetime-button {
+        margin-top: 15px;
+        min-height: 53px;
+    }
+
+    .final-heart {
+        width: 54px;
+        height: 54px;
+        margin-bottom: 19px;
+    }
+
+    .final-page h2 {
+        font-size: 37px;
+    }
+
+    .selected-date {
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    .final-text {
+        margin-top: 12px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .page {
+        padding-left: 19px;
+        padding-right: 19px;
+    }
+
+    .invitation-number {
+        right: 19px;
+    }
+
+    #screen-cover h1 {
+        font-size: 50px;
+    }
+
+    .cover-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .options-title,
+    .datetime-title {
+        font-size: 32px;
+    }
+}
+
+
+/* =========================================================
+   IOS / TELEGRAM WEBVIEW
+   ========================================================= */
+
+@supports (-webkit-touch-callout: none) {
+
+    input[type="date"],
+    input[type="time"] {
+        min-height: 46px;
+    }
+
+    .page {
+        padding-bottom:
+            max(30px, env(safe-area-inset-bottom));
     }
 }
