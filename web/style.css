@@ -1,275 +1,487 @@
-connection.close()
-            return None
+/* ===== SoftLoveDate — premium romantic style ===== */
 
-        result = dict(row)
+:root {
+    --bg: #f8f3f4;
+    --card: rgba(255, 255, 255, 0.78);
+    --text: #33282d;
+    --muted: #8c7d83;
+    --accent: #c98296;
+    --accent-dark: #a96278;
+    --line: rgba(80, 50, 60, 0.10);
+    --shadow: 0 24px 70px rgba(72, 43, 52, 0.13);
+}
 
-    connection.close()
-    return result
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(235, 190, 202, 0.42),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(224, 188, 198, 0.30),
+            transparent 35%
+        ),
+        var(--bg);
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+}
+
+/* ===== Main layout ===== */
+
+.app {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+
+    padding: 22px 16px 34px;
+}
+
+.screen {
+    width: 100%;
+    max-width: 460px;
+    min-height: calc(100vh - 56px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 100%;
+
+    padding: 22px;
+
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 34px;
+
+    background: var(--card);
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    animation: cardAppear 0.8s ease both;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ===== Typography ===== */
+
+.eyebrow {
+    margin: 4px 0 10px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+
+    font-weight: 500;
+
+    letter-spacing: -0.035em;
+}
+
+h1 {
+    font-size: clamp(34px, 9vw, 48px);
+    line-height: 0.98;
+}
+
+h2 {
+    font-size: 30px;
+    line-height: 1.05;
+}
+
+p {
+    line-height: 1.55;
+}
+
+/* ===== Photo ===== */
+
+.photo-frame {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 4 / 5;
+
+    margin-bottom: 24px;
+
+    overflow: hidden;
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(230, 199, 207, 0.65),
+            rgba(250, 244, 246, 0.92)
+        );
+
+    box-shadow:
+        0 18px 45px rgba(65, 38, 48, 0.13),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.photo-frame::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(30, 15, 20, 0.02),
+            transparent 55%,
+            rgba(30, 15, 20, 0.18)
+        );
+}
+
+.invitation-photo {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    object-fit: cover;
+
+    border-radius: inherit;
+
+    animation: photoAppear 1s ease both;
+}
+
+@keyframes photoAppear {
+    from {
+        opacity: 0;
+        transform: scale(1.035);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.photo-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(169, 98, 120, 0.65);
+
+    font-size: 48px;
+}
+
+.photo-placeholder span {
+    animation: heartbeat 2.2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    8% {
+        transform: scale(1.12);
+    }
+
+    16% {
+        transform: scale(1);
+    }
+}
+
+/* ===== Invitation text ===== */
+
+.invitation-copy {
+    padding: 0 4px 4px;
+}
+
+.invitation-copy .personal-message {
+    margin: 18px 0 0;
+
+    color: var(--muted);
+
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+/* ===== Buttons ===== */
+
+button {
+    border: 0;
+}
+
+.primary-button {
+    width: 100%;
+
+    margin-top: 24px;
+    padding: 16px 20px;
+
+    border-radius: 18px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent-dark)
+        );
+
+    box-shadow:
+        0 12px 28px rgba(169, 98, 120, 0.24);
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+.primary-button:hover {
+    filter: brightness(1.03);
+
+    box-shadow:
+        0 16px 34px rgba(169, 98, 120, 0.28);
+}
+
+.primary-button:active {
+    transform: scale(0.98);
+}
+
+/* ===== Date options ===== */
+
+.options {
+    display: grid;
+
+    gap: 12px;
+
+    margin-top: 22px;
+}
+
+.option-button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 17px 16px;
+
+    text-align: left;
+
+    color: var(--text);
+
+    border: 1px solid var(--line);
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.64);
+
+    box-shadow:
+        0 8px 24px rgba(70, 40, 50, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.option-button:hover {
+    transform: translateY(-2px);
+
+    background: rgba(255, 255, 255, 0.9);
+
+    box-shadow:
+        0 12px 30px rgba(70, 40, 50, 0.09);
+}
+
+.option-button:active {
+    transform: scale(0.985);
+}
+
+.option-emoji {
+    width: 44px;
+    height: 44px;
+
+    flex: 0 0 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: rgba(201, 130, 150, 0.10);
+
+    font-size: 21px;
+}
+
+.option-title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* ===== Inputs ===== */
+
+.input-group {
+    margin-top: 18px;
+}
+
+.input-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+input,
+textarea {
+    width: 100%;
+
+    padding: 15px 16px;
+
+    border: 1px solid var(--line);
+    border-radius: 17px;
+
+    outline: none;
+
+    color: var(--text);
+
+    background: rgba(255, 255, 255, 0.76);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: rgba(201, 130, 150, 0.55);
+
+    box-shadow:
+        0 0 0 4px rgba(201, 130, 150, 0.10);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* ===== Utility ===== */
+
+.muted {
+    color: var(--muted);
+}
+
+.center {
+    text-align: center;
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 480px) {
+    .app {
+        padding: 12px 10px 24px;
+    }
+
+    .screen {
+        min-height: calc(100vh - 36px);
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 29px;
+    }
+
+    .photo-frame {
+        border-radius: 24px;
+        margin-bottom: 21px;
+    }
+
+    h1 {
+        font-size: 38px;
+    }
+}
 
 
-# ============================================================
-# Получение вариантов свидания
-# ============================================================
+/* ===== Screen navigation ===== */
 
-def get_options(invitation_id):
-    connection = get_connection()
-    cursor = connection.cursor()
+.screen {
+    display: none;
+}
 
-    if is_postgres():
-        cursor.execute("""
-            SELECT *
-            FROM date_options
-            WHERE invitation_id = %s
-            ORDER BY sort_order
-        """, (invitation_id,))
+.screen.active {
+    display: flex;
+}
 
-        rows = cursor.fetchall()
-
-        columns = [column.name for column in cursor.description]
-        result = [
-            dict(zip(columns, row))
-            for row in rows
-        ]
-
-    else:
-        cursor.execute("""
-            SELECT *
-            FROM date_options
-            WHERE invitation_id = ?
-            ORDER BY sort_order
-        """, (invitation_id,))
-
-        rows = cursor.fetchall()
-
-        result = [dict(row) for row in rows]
-
-    connection.close()
-    return result
-
-
-# ============================================================
-# Сохранение выбора получателя
-# ============================================================
-
-def save_invitation_choice(
-    invitation_id,
-    selected_option,
-    selected_date,
-    selected_time,
-):
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    if is_postgres():
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_option = %s,
-                selected_date = %s,
-                selected_time = %s,
-                status = 'selected'
-            WHERE id = %s
-        """, (
-            selected_option,
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    else:
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_option = ?,
-                selected_date = ?,
-                selected_time = ?,
-                status = 'selected'
-            WHERE id = ?
-        """, (
-            selected_option,
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    connection.commit()
-    connection.close()
-
-
-# ============================================================
-# Сохранение даты и времени, назначенных создателем
-# ============================================================
-
-def save_assigned_datetime(
-    invitation_id,
-    selected_date,
-    selected_time,
-):
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    if is_postgres():
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_date = %s,
-                selected_time = %s
-            WHERE id = %s
-        """, (
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    else:
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_date = ?,
-                selected_time = ?
-            WHERE id = ?
-        """, (
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    connection.commit()
-    connection.close()connection.close()
-            return None
-
-        result = dict(row)
-
-    connection.close()
-    return result
-
-
-# ============================================================
-# Получение вариантов свидания
-# ============================================================
-
-def get_options(invitation_id):
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    if is_postgres():
-        cursor.execute("""
-            SELECT *
-            FROM date_options
-            WHERE invitation_id = %s
-            ORDER BY sort_order
-        """, (invitation_id,))
-
-        rows = cursor.fetchall()
-
-        columns = [column.name for column in cursor.description]
-        result = [
-            dict(zip(columns, row))
-            for row in rows
-        ]
-
-    else:
-        cursor.execute("""
-            SELECT *
-            FROM date_options
-            WHERE invitation_id = ?
-            ORDER BY sort_order
-        """, (invitation_id,))
-
-        rows = cursor.fetchall()
-
-        result = [dict(row) for row in rows]
-
-    connection.close()
-    return result
-
-
-# ============================================================
-# Сохранение выбора получателя
-# ============================================================
-
-def save_invitation_choice(
-    invitation_id,
-    selected_option,
-    selected_date,
-    selected_time,
-):
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    if is_postgres():
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_option = %s,
-                selected_date = %s,
-                selected_time = %s,
-                status = 'selected'
-            WHERE id = %s
-        """, (
-            selected_option,
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    else:
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_option = ?,
-                selected_date = ?,
-                selected_time = ?,
-                status = 'selected'
-            WHERE id = ?
-        """, (
-            selected_option,
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    connection.commit()
-    connection.close()
-
-
-# ============================================================
-# Сохранение даты и времени, назначенных создателем
-# ============================================================
-
-def save_assigned_datetime(
-    invitation_id,
-    selected_date,
-    selected_time,
-):
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    if is_postgres():
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_date = %s,
-                selected_time = %s
-            WHERE id = %s
-        """, (
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    else:
-        cursor.execute("""
-            UPDATE invitations
-            SET
-                selected_date = ?,
-                selected_time = ?
-            WHERE id = ?
-        """, (
-            selected_date,
-            selected_time,
-            invitation_id,
-        ))
-
-    connection.commit()
-    connection.close()
+/* Screen navigation fix */
+.screen { display: none !important; }
+.screen.active { display: flex !important; }
